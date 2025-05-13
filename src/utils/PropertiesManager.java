@@ -47,10 +47,20 @@ public class PropertiesManager {
     }
 
     public String getAddress() {
-        return properties.getProperty("ip");
+        String ip = properties.getProperty("ip");
+        if (ip==null) {
+            System.out.println("No IP address found using default: 127.0.0.1");
+            return "127.0.0.1";
+        }
+        return ip;
     }
     public int getPort() {
         try{
+            String port = properties.getProperty("port");
+            if(port==null){
+                System.out.println("No port found using default: 1234");
+                return 1234;
+            }
             return Integer.parseInt(properties.getProperty("port"));
         }catch (NumberFormatException ex){
             throw new RuntimeException("Error parsing port number in config");
