@@ -5,8 +5,10 @@ import Errors.UnknownJsonObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.Serializable;
 
-public class Deserializer{
+
+public class Deserializer implements Serializable {
     private final int code;
     private final String message;
 
@@ -30,5 +32,10 @@ public class Deserializer{
     }
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "[Server] "+message+" ("+code+")";
     }
 }

@@ -16,14 +16,17 @@ public class Serializer implements Serializable {
         this.operation = operation;
     }
 
-    public void setLogin(String user,String password){
+    public void setLogin(String user,String password,int port){
         values = new JsonObject();
         values.addProperty("username",user);
         values.addProperty("password",password);
+        values.addProperty("port",port);
     }
 
     public void setRegister(String user,String password){
-        setLogin(user,password);
+        values = new JsonObject();
+        values.addProperty("username",user);
+        values.addProperty("password",password);
     }
 
     public void updateCredentials(String user,String old_pass, String new_pass){

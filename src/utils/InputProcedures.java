@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class InputProcedures {
 
-    public static String login(){
+    public static String login(int port){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Username: ");
         String username = scanner.nextLine();
         System.out.println("Password: ");
         String password = scanner.nextLine();
         Serializer values = new Serializer(OperationToken.login);
-        values.setLogin(username, password);
+        values.setLogin(username, password,port);
         scanner.close();
         return values.toString();
     }
