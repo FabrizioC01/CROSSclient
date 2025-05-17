@@ -36,6 +36,7 @@ public class Main {
                         writer.println(res);
                         Deserializer resp = new Deserializer(reader.readLine());
                         System.out.println(resp);
+                        scanner.close();git statusgit add ..pr..**json
                         if(resp.getCode()==100) ReservedArea.init(socket,writer,reader);
                     }
                     case 2->{
