@@ -28,16 +28,17 @@ public class Main {
             System.out.println("1) login\n2) update credentials\n3) register\nx) exit");
 
             Scanner scanner = new Scanner(System.in);
-            if (scanner.hasNextInt()){
-                int sel = scanner.nextInt();
-                switch (sel){
+
+            int val=-1;
+            try {
+                val = Integer.parseInt(scanner.nextLine());
+                switch (val){
                     case 1->{
                         String res = InputProcedures.login(udp.getLocalPort());
                         writer.println(res);
                         Deserializer resp = new Deserializer(reader.readLine());
                         System.out.println(resp);
-                        scanner.close();git statusgit add ..pr..**json
-                        if(resp.getCode()==100) ReservedArea.init(socket,writer,reader);
+                        if(resp.getCode()==100) ReservedArea.init(socket,writer,reader,scanner);
                     }
                     case 2->{
                         String res = InputProcedures.updateCredentials();
@@ -55,7 +56,10 @@ public class Main {
                         socket.close();
                     }
                 }
+            }catch (NumberFormatException e) {
+                System.out.println("Invalid input");
             }
+
             System.out.println("bye...");
         }catch (SocketTimeoutException e){
           System.out.println("Connection closed, time out");

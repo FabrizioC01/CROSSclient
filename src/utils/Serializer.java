@@ -32,8 +32,8 @@ public class Serializer implements Serializable {
     public void updateCredentials(String user,String old_pass, String new_pass){
         values = new JsonObject();
         values.addProperty("username",user);
-        values.addProperty("old_password",old_pass);
-        values.addProperty("new_password",new_pass);
+        values.addProperty("oldPassword",old_pass);
+        values.addProperty("newPassword",new_pass);
     }
     public void setLogout(){
         values = new JsonObject();
