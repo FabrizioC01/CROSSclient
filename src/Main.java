@@ -27,7 +27,7 @@ public class Main {
             System.out.println("+++ CROSS +++");
             System.out.println("1) login\n2) update credentials\n3) register\nx) exit");
 
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = InputProcedures.scanner;
 
             int val=-1;
             try {
@@ -38,7 +38,7 @@ public class Main {
                         writer.println(res);
                         Deserializer resp = new Deserializer(reader.readLine());
                         System.out.println(resp);
-                        if(resp.getCode()==100) ReservedArea.init(socket,writer,reader,scanner);
+                        if(resp.getCode()==100) ReservedArea.init(socket,writer,reader);
                     }
                     case 2->{
                         String res = InputProcedures.updateCredentials();
@@ -60,7 +60,7 @@ public class Main {
                 System.out.println("Invalid input");
             }
 
-            System.out.println("bye...");
+            System.out.println("\nbye...");
         }catch (SocketTimeoutException e){
           System.out.println("Connection closed, time out");
         } catch (UnknownJsonObject e){
