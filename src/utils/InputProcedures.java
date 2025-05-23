@@ -1,7 +1,9 @@
 package utils;
 
+import enums.MarketType;
 import enums.OperationToken;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputProcedures {
@@ -37,6 +39,40 @@ public class InputProcedures {
         Serializer values = new Serializer(OperationToken.updateCredentials);
         values.updateCredentials(username, old_password,new_password);
         return values.toString();
+    }
+
+    public static String insertLimitOrder(){
+        while (true){
+            try {
+                System.out.println("Operation type (0:ask | 1:bid): ");
+                int v = scanner.nextInt();
+                if(v<0 || v>1) {
+                    System.out.println("Invalid operation...");
+                    scanner.nextLine();
+                    continue;
+                }
+                System.out.println("Insert price: ");
+                int price = scanner.nextInt();
+                if(price<=0) {
+                    System.out.println("Invalid price...");
+                    scanner.nextLine();
+                    continue;
+                }
+                System.out.println("Insert size: ");
+                int size = scanner.nextInt();
+                if(size<=0) {
+                    System.out.println("Invalid size...");
+                    scanner.nextLine();
+                    continue;
+                }
+                Serializer ser = new Serializer(OperationToken.insertLimitOrder);
+                ser.setLimitStop((v==0)?MarketType.ask:MarketType.bid,size,price);
+                return ser.toString();
+            }catch (InputMismatchException ignored){
+                System.out.println("Input not valid");
+            }
+        }
+
     }
 
 }

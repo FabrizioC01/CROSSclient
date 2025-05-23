@@ -42,7 +42,14 @@ public class ReservedArea {
 
                     switch (val) {
                         case 1 -> System.out.println("Market order selected");
-                        case 2 -> System.out.println("Limit order selected");
+                        case 2 -> {
+                            String resp = InputProcedures.insertLimitOrder();
+                            writer.println(resp);
+                            String line = reader.readLine();
+                            System.out.println(line);
+                            Deserializer des = Deserializer.fromOrderResponse(line);
+                            System.out.println("[Server] Order id "+des.getCode());
+                        }
                         case 3 -> System.out.println("Stop order selected");
                         case 4 -> System.out.println("Order history selected");
                         case 5 -> System.out.println("Book selected");
