@@ -70,6 +70,7 @@ public class InputProcedures {
                 return ser.toString();
             }catch (InputMismatchException ignored){
                 System.out.println("Input not valid");
+                scanner.nextLine();
             }
         }
 

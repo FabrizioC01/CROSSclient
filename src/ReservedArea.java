@@ -26,29 +26,20 @@ public class ReservedArea {
 
         try{
             int val=0;
-            System.out.println("Welcome, "+new Date(System.currentTimeMillis()));
-            System.out.println("1) Market order");
-            System.out.println("2) Limit order");
-            System.out.println("3) Stop order");
-            System.out.println("4) Order history");
-            System.out.println("5) Book");
-            System.out.println("6) My orders");
-            System.out.println("7) Logout");
-            System.out.print("Enter choice: ");
             while (true) {
-                if (scanner.hasNextInt()) {
-                    val = scanner.nextInt();
-                    scanner.nextLine();
-
-                    switch (val) {
+                printMenu();
+                String line = scanner.nextLine();
+                try{
+                    int sel = Integer.parseInt(line);
+                    switch(sel) {
                         case 1 -> System.out.println("Market order selected");
                         case 2 -> {
                             String resp = InputProcedures.insertLimitOrder();
                             writer.println(resp);
-                            String line = reader.readLine();
-                            System.out.println(line);
-                            Deserializer des = Deserializer.fromOrderResponse(line);
-                            System.out.println("[Server] Order id "+des.getCode());
+                            String l = reader.readLine();
+                            Deserializer des = Deserializer.fromOrderResponse(l);
+                            if(des.getCode()!=-1) System.out.println("[Server] Order created with id "+des.getCode());
+                            else System.out.println("[Server] error order not created ("+des.getCode()+")");
                         }
                         case 3 -> System.out.println("Stop order selected");
                         case 4 -> System.out.println("Order history selected");
@@ -65,6 +56,9 @@ public class ReservedArea {
                         }
                         default -> System.out.println("Invalid option, please try again");
                     }
+                } catch (NumberFormatException ignored) {System.out.println("invalid input...");}
+                finally {
+                    scanner.nextLine();
                 }
             }
         }catch (SocketTimeoutException e){
@@ -78,5 +72,17 @@ public class ReservedArea {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    private static void printMenu(){
+        System.out.println("Welcome, "+new Date(System.currentTimeMillis()));
+        System.out.println("1) Market order");
+        System.out.println("2) Limit order");
+        System.out.println("3) Stop order");
+        System.out.println("4) Order history");
+        System.out.println("5) Book");
+        System.out.println("6) My orders");
+        System.out.println("7) Logout");
+        System.out.print("Enter choice: ");
     }
 }
