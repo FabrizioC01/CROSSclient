@@ -2,6 +2,7 @@ package utils;
 
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
+import Models.Notification;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,6 +48,11 @@ public class Deserializer implements Serializable {
         }catch (NumberFormatException e){
             throw new UnknownJsonObject("invalid server response");
         }
+    }
+
+    public static Notification fromNotificationResponse(String serialized_object){
+        Gson gson = new Gson();
+        return gson.fromJson(serialized_object, Notification.class);
     }
 
     public int getCode() {

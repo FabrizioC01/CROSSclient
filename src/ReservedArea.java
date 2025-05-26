@@ -32,16 +32,30 @@ public class ReservedArea {
                 try{
                     int sel = Integer.parseInt(line);
                     switch(sel) {
-                        case 1 -> System.out.println("Market order selected");
+                        case 1 -> {
+                            String req = InputProcedures.insertMarketOrder();
+                            writer.println(req);
+                            String resp = reader.readLine();
+                            Deserializer des = Deserializer.fromOrderResponse(resp);
+                            if(des.getCode()==-1) System.out.println("[Server] Error order not completed ("+des.getCode()+")");
+                            else System.out.println("[Server] Market order completed with id: "+des.getCode());
+                        }
                         case 2 -> {
-                            String resp = InputProcedures.insertLimitOrder();
+                            String resp = InputProcedures.insertLimitStopOrder(false);
                             writer.println(resp);
                             String l = reader.readLine();
                             Deserializer des = Deserializer.fromOrderResponse(l);
-                            if(des.getCode()!=-1) System.out.println("[Server] Order created with id "+des.getCode());
-                            else System.out.println("[Server] error order not created ("+des.getCode()+")");
+                            if(des.getCode()!=-1) System.out.println("[Server] Limit Order created with id: "+des.getCode());
+                            else System.out.println("[Server] Error limit order not created ("+des.getCode()+")");
                         }
-                        case 3 -> System.out.println("Stop order selected");
+                        case 3 -> {
+                            String resp = InputProcedures.insertLimitStopOrder(true);
+                            writer.println(resp);
+                            String l = reader.readLine();
+                            Deserializer des = Deserializer.fromOrderResponse(l);
+                            if(des.getCode()!=-1) System.out.println("[Server] Stop Order created with id: "+des.getCode());
+                            else System.out.println("[Server] Error stop order not created ("+des.getCode()+")");
+                        }
                         case 4 -> System.out.println("Order history selected");
                         case 5 -> System.out.println("Book selected");
                         case 6 -> System.out.println("My orders selected");

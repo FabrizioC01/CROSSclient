@@ -41,7 +41,7 @@ public class InputProcedures {
         return values.toString();
     }
 
-    public static String insertLimitOrder(){
+    public static String insertLimitStopOrder(boolean isStop){
         while (true){
             try {
                 System.out.println("Operation type (0:ask | 1:bid): ");
@@ -65,8 +65,36 @@ public class InputProcedures {
                     scanner.nextLine();
                     continue;
                 }
-                Serializer ser = new Serializer(OperationToken.insertLimitOrder);
+                Serializer ser = new Serializer((isStop)?OperationToken.insertStopOrder:OperationToken.insertLimitOrder);
                 ser.setLimitStop((v==0)?MarketType.ask:MarketType.bid,size,price);
+                return ser.toString();
+            }catch (InputMismatchException ignored){
+                System.out.println("Input not valid");
+                scanner.nextLine();
+            }
+        }
+
+    }
+
+    public static String insertMarketOrder(){
+        while (true){
+            try {
+                System.out.println("Operation type (0:ask | 1:bid): ");
+                int v = scanner.nextInt();
+                if(v<0 || v>1) {
+                    System.out.println("Invalid operation...");
+                    scanner.nextLine();
+                    continue;
+                }
+                System.out.println("Insert size: ");
+                int size = scanner.nextInt();
+                if(size<=0) {
+                    System.out.println("Invalid size...");
+                    scanner.nextLine();
+                    continue;
+                }
+                Serializer ser = new Serializer(OperationToken.insertMarketOrder);
+                ser.setMarket((v==0)?MarketType.ask:MarketType.bid,size);
                 return ser.toString();
             }catch (InputMismatchException ignored){
                 System.out.println("Input not valid");

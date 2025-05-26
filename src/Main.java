@@ -1,5 +1,6 @@
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
+import Services.NotificationService;
 import utils.Deserializer;
 import utils.InputProcedures;
 import utils.PropertiesManager;
@@ -24,12 +25,14 @@ public class Main {
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));) {
 
+            Thread notifications = new Thread(new NotificationService(udp));
+
             System.out.println("+++ CROSS +++");
             System.out.println("1) login\n2) update credentials\n3) register\nx) exit");
 
             Scanner scanner = InputProcedures.scanner;
 
-            int val=-1;
+            int val;
             try {
                 val = Integer.parseInt(scanner.nextLine());
                 switch (val){
@@ -38,7 +41,10 @@ public class Main {
                         writer.println(res);
                         Deserializer resp = new Deserializer(reader.readLine());
                         System.out.println(resp);
-                        if(resp.getCode()==100) ReservedArea.init(socket,writer,reader);
+                        if(resp.getCode()==100) {
+                            notifications.start();
+                            ReservedArea.init(socket,writer,reader);
+                        }
                     }
                     case 2->{
                         String res = InputProcedures.updateCredentials();
@@ -59,7 +65,7 @@ public class Main {
             }catch (NumberFormatException e) {
                 System.out.println("Invalid input");
             }
-
+            notifications.interrupt();
             System.out.println("\nbye...");
         }catch (SocketTimeoutException e){
           System.out.println("Connection closed, time out");
