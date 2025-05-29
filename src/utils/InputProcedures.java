@@ -67,6 +67,7 @@ public class InputProcedures {
                 }
                 Serializer ser = new Serializer((isStop)?OperationToken.insertStopOrder:OperationToken.insertLimitOrder);
                 ser.setLimitStop((v==0)?MarketType.ask:MarketType.bid,size,price);
+                scanner.nextLine();
                 return ser.toString();
             }catch (InputMismatchException ignored){
                 System.out.println("Input not valid");
@@ -95,6 +96,7 @@ public class InputProcedures {
                 }
                 Serializer ser = new Serializer(OperationToken.insertMarketOrder);
                 ser.setMarket((v==0)?MarketType.ask:MarketType.bid,size);
+                scanner.nextLine();
                 return ser.toString();
             }catch (InputMismatchException ignored){
                 System.out.println("Input not valid");

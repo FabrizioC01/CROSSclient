@@ -1,5 +1,6 @@
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
+import Services.NotificationService;
 import enums.OperationToken;
 import utils.Deserializer;
 import utils.InputProcedures;
@@ -25,12 +26,12 @@ public class ReservedArea {
         reader=read;
 
         try{
-            int val=0;
-            while (true) {
+            int sel=1;
+            while (sel>=1 && sel<=7) {
                 printMenu();
                 String line = scanner.nextLine();
                 try{
-                    int sel = Integer.parseInt(line);
+                    sel = Integer.parseInt(line);
                     switch(sel) {
                         case 1 -> {
                             String req = InputProcedures.insertMarketOrder();
@@ -63,7 +64,6 @@ public class ReservedArea {
                             Serializer msg = new Serializer(OperationToken.logout);
                             msg.setLogout();
                             writer.println(msg);
-                            System.out.println(msg);
                             Deserializer resp = new Deserializer(reader.readLine());
                             System.out.println(resp);
                             return;
@@ -71,9 +71,7 @@ public class ReservedArea {
                         default -> System.out.println("Invalid option, please try again");
                     }
                 } catch (NumberFormatException ignored) {System.out.println("invalid input...");}
-                finally {
-                    scanner.nextLine();
-                }
+
             }
         }catch (SocketTimeoutException e){
             System.out.println("Connection closed, time out");
@@ -83,8 +81,6 @@ public class ReservedArea {
             System.out.println("[Error] Connection lost");
         }catch (IOException e){
             System.out.println("[Error] Server connection failed");
-        }catch(Exception e){
-            e.printStackTrace();
         }
     }
 

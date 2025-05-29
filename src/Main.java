@@ -44,6 +44,7 @@ public class Main {
                         if(resp.getCode()==100) {
                             notifications.start();
                             ReservedArea.init(socket,writer,reader);
+                            NotificationService.stop();
                         }
                     }
                     case 2->{
@@ -59,14 +60,12 @@ public class Main {
                         System.out.println(resp);
                     }
                     default -> {
-                        socket.close();
+                        System.out.println("bye");
                     }
                 }
             }catch (NumberFormatException e) {
-                System.out.println("Invalid input");
+                System.out.println("Invalid input...");
             }
-            notifications.interrupt();
-            System.out.println("\nbye...");
         }catch (SocketTimeoutException e){
           System.out.println("Connection closed, time out");
         } catch (UnknownJsonObject e){

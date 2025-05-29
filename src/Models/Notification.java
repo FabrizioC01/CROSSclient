@@ -3,7 +3,10 @@ package Models;
 import enums.MarketType;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Notification {
     private String notification;
@@ -12,7 +15,8 @@ public class Notification {
     public void printNotifications(){
         System.out.println("[Notification] type : "+notification);
         for(Trade t : trades){
-            System.out.println("["+t.getOrderId()+"] "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+((t.getType()==MarketType.ask)?"€":"B")+" x "+t.getSize());
+            Date d = new Date(t.getTimestamp());
+            System.out.println("["+t.getOrderId()+"] ("+d+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
         }
     }
 }
@@ -23,7 +27,7 @@ class Trade{
     private String orderType;
     private int size;
     private int price;
-    private Timestamp timestamp;
+    private long timestamp;
 
     public int getOrderId() {
         return orderId;
@@ -41,7 +45,7 @@ class Trade{
     public int getSize() {
         return size;
     }
-    public Timestamp getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
