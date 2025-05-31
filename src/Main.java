@@ -67,9 +67,9 @@ public class Main {
                 System.out.println("Invalid input...");
             }
         }catch (SocketTimeoutException e){
-          System.out.println("Connection closed, time out");
+          System.out.println("[Error] Connection closed, time out");
         } catch (UnknownJsonObject e){
-           System.out.println("[Error] unknown response");
+           System.out.println("[Error] Unknown response");
         }catch(ServerSocketClosed e){
             System.out.println("[Error] Connection lost");
         }catch (IOException e){

@@ -16,7 +16,8 @@ public class Notification {
         System.out.println("[Notification] type : "+notification);
         for(Trade t : trades){
             Date d = new Date(t.getTimestamp());
-            System.out.println("["+t.getOrderId()+"] ("+d+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
+            if(t.getOrderId()==-1) System.out.println("[FAILED] ("+d+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
+            else System.out.println("["+t.getOrderId()+"] ("+d+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
         }
     }
 }
