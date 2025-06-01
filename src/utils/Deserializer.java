@@ -3,11 +3,15 @@ package utils;
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
 import Models.Notification;
+import Models.Trade;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class Deserializer implements Serializable {
@@ -48,6 +52,15 @@ public class Deserializer implements Serializable {
         }catch (NumberFormatException e){
             throw new UnknownJsonObject("invalid server response");
         }
+    }
+
+    public static ArrayList<Trade> fromHistory(String serialized_object) throws UnknownJsonObject,ServerSocketClosed {
+        Gson gson = new Gson();
+        if(serialized_object==null) throw new ServerSocketClosed();
+        JsonObject jsonObject = gson.fromJson(serialized_object, JsonObject.class);
+        JsonElement je1= jsonObject.get("trades");
+        if(je1==null) throw new UnknownJsonObject("invalid server response");
+        return gson.fromJson(je1.getAsJsonArray(), new TypeToken<ArrayList<Trade>>(){}.getType());
     }
 
     public static Notification fromNotificationResponse(String serialized_object){

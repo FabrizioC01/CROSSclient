@@ -1,5 +1,6 @@
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
+import Models.Trade;
 import Services.NotificationService;
 import enums.OperationToken;
 import utils.Deserializer;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -57,9 +59,24 @@ public class ReservedArea {
                             if(des.getCode()!=-1) System.out.println("[Server] Stop Order created with id: "+des.getCode());
                             else System.out.println("[Server] Error stop order not created ("+des.getCode()+")");
                         }
-                        case 4 -> System.out.println("Order history selected");
-                        case 5 -> System.out.println("Book selected");
-                        case 6 -> System.out.println("My orders selected");
+                        case 4 -> {
+                            String req = InputProcedures.getHistory();
+                            writer.println(req);
+                            String resp = reader.readLine();
+                            ArrayList<Trade> list = Deserializer.fromHistory(resp);
+                            System.out.println("[Server] Order History:");
+                            for(Trade t: list){
+                                System.out.println("["+t.getOrderId()+"] ("+new Date(t.getTimestamp())+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
+                            }
+
+                        }
+                        case 5 ->{
+                            String req = InputProcedures.cancelOrder();
+                            writer.println(req);
+                            String resp = reader.readLine();
+                            Deserializer response = new Deserializer(resp);
+                            System.out.println(response);
+                        }
                         case 7 -> {
                             Serializer msg = new Serializer(OperationToken.logout);
                             msg.setLogout();
@@ -90,8 +107,7 @@ public class ReservedArea {
         System.out.println("2) Limit order");
         System.out.println("3) Stop order");
         System.out.println("4) Order history");
-        System.out.println("5) Book");
-        System.out.println("6) My orders");
+        System.out.println("5) Cancel Order");
         System.out.println("7) Logout");
         System.out.print("Enter choice: ");
     }

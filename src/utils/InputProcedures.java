@@ -3,6 +3,7 @@ package utils;
 import enums.MarketType;
 import enums.OperationToken;
 
+import java.time.Year;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -76,6 +77,27 @@ public class InputProcedures {
         }
 
     }
+    public static String cancelOrder(){
+        while (true){
+            try {
+                System.out.println("Order id: ");
+                int v = scanner.nextInt();
+                if(v<0) {
+                    System.out.println("Invalid value...");
+                    scanner.nextLine();
+                    continue;
+                }
+                scanner.nextLine();
+                Serializer ser = new Serializer(OperationToken.cancelOrder);
+                ser.setOrderCancel(v);
+                return ser.toString();
+            }catch (InputMismatchException ignored){
+                System.out.println("Invalid input");
+                scanner.nextLine();
+            }
+        }
+    }
+
 
     public static String insertMarketOrder(){
         while (true){
@@ -99,11 +121,40 @@ public class InputProcedures {
                 scanner.nextLine();
                 return ser.toString();
             }catch (InputMismatchException ignored){
-                System.out.println("Input not valid");
+                System.out.println("Invalid input");
                 scanner.nextLine();
             }
         }
 
+    }
+    public static String getHistory(){
+        while (true){
+            try {
+                System.out.println("Month (1-12): ");
+                int month = scanner.nextInt();
+                if(month<1 || month>12) {
+                    System.out.println("Invalid month...");
+                    scanner.nextLine();
+                    continue;
+                }
+                System.out.println("Year (ex. 2020): ");
+                int year = scanner.nextInt();
+                if(year<=0 || year> Year.now().getValue()) {
+                    System.out.println("Invalid year...");
+                    scanner.nextLine();
+                    continue;
+                }
+                Serializer ser = new Serializer(OperationToken.getPriceHistory);
+                String val = Integer.toString(month)+Integer.toString(year);
+                if(month<10) val = "0"+val;
+                ser.setHistory(val);
+                scanner.nextLine();
+                return ser.toString();
+            }catch (InputMismatchException ignored){
+                System.out.println("Invalid input");
+                scanner.nextLine();
+            }
+        }
     }
 
 }
