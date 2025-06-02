@@ -1,5 +1,8 @@
 package enums;
 
+/**
+ * Lista operazioni che possono essere richieste al server.
+ */
 public enum OperationToken {
     register,
     login,

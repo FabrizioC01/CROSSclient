@@ -7,6 +7,10 @@ import java.time.Year;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Comprende tutte le procedure di inserimento di input,
+ * restituiscono gli oggetti serializzati pronti ad esssere mandati al server.
+ */
 public class InputProcedures {
     public static Scanner scanner = new Scanner(System.in);
 

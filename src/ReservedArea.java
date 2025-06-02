@@ -21,12 +21,17 @@ public class ReservedArea {
     private static PrintWriter writer=null;
     private static BufferedReader reader=null;
 
+    /**
+     * Lista operazioni da loggato
+     * @param sock socket con il server
+     * @param write writer
+     * @param read reader
+     */
     public static void init(Socket sock, PrintWriter write, BufferedReader read) {
         Scanner scanner = InputProcedures.scanner;
         socket=sock;
         writer=write;
         reader=read;
-
         try{
             int sel=1;
             while (sel>=1 && sel<=7) {
@@ -68,7 +73,6 @@ public class ReservedArea {
                             for(Trade t: list){
                                 System.out.println("["+t.getOrderId()+"] ("+new Date(t.getTimestamp())+") "+t.getOrderType()+" | "+t.getType().toString().toUpperCase()+" - "+(float) t.getPrice() /1000+"$ x "+(float)t.getSize()/1000+"BTC");
                             }
-
                         }
                         case 5 ->{
                             String req = InputProcedures.cancelOrder();

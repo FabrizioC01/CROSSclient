@@ -16,6 +16,10 @@ public class NotificationService implements Runnable {
         socket = ds;
     }
 
+    /**
+     * Resta in ascolto (sulla porta aperta e comunicata al login)
+     * di notifiche dal server.
+     */
     @Override
     public void run() {
         byte[] buffer = new byte[2048];
@@ -37,6 +41,10 @@ public class NotificationService implements Runnable {
 
     }
 
+    /**
+     * Ferma il servizio in ascolto e imposta canRun a false
+     * solo per l'output
+     */
     public static void stop() {
         canRun = false;
         socket.close();

@@ -8,6 +8,10 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Properties;
 
+/**
+ * Gestore file properties che richiede solo ip e porta
+ * del server.
+ */
 public class PropertiesManager {
     private final static String path = "client.properties";
     private final Properties properties;

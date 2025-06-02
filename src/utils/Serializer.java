@@ -1,6 +1,5 @@
 package utils;
 
-import Errors.SerializationError;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import enums.MarketType;
@@ -8,6 +7,11 @@ import enums.OperationToken;
 
 import java.io.Serializable;
 
+/**
+ * Oggetto per serializzazione viene passato al costruttore l'operazione
+ * che si vuole effettuare e in values si hanno i valori da inserire a seconda
+ * dell'operazione che si vuole effettuare.
+ */
 public class Serializer implements Serializable {
     private final OperationToken operation;
     private JsonObject values=null;

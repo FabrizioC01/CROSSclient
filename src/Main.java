@@ -16,7 +16,14 @@ import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 
+
 public class Main {
+    /**
+     * Nel main vengono caricati il file properties e vengono create le socket.
+     * In questa sezione vengono effettuati accesso, cambio password e registrazione.
+     * Per le operazioni con accesso effettuato viene chiamata {@code ReservedArea}
+     * @param args ignorati
+     */
     public static void main(String[] args) {
         PropertiesManager prop = new PropertiesManager();
 

@@ -2,6 +2,9 @@ package Models;
 
 import enums.MarketType;
 
+/**
+ * Classe che gestisce gli ordini ricevuti da notifiche e lo storico degli ordini
+ */
 public class Trade{
     private int orderId;
     private MarketType type;
