@@ -1,3 +1,5 @@
+package main;
+
 import Errors.ServerSocketClosed;
 import Errors.UnknownJsonObject;
 import Services.NotificationService;
